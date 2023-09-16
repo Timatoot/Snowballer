@@ -1,3 +1,4 @@
+using Pathfinding;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -12,14 +13,12 @@ public class EnemyBehaviour : MonoBehaviour
     public EnemyHealthbar healthbar;
     public GameObject currencyPrefab;
 
-    Rigidbody2D rb;
+    public AIPath ai;
 
     void Start()
     {
         enemyHP = maxHP;
         healthbar.EnemySetHealth(enemyHP, maxHP);
-
-        rb = GetComponent<Rigidbody2D>();
     }
 
     public void TakeHit(float damage)
@@ -51,14 +50,14 @@ public class EnemyBehaviour : MonoBehaviour
             StatsManager.Instance.IncreaseKillCount();
         }
     }
-    //TODO: rb not set to an object referenece
+
     void FixedUpdate()
     {
-        if (rb.velocity.x >= 0.25f)
+        if(ai.desiredVelocity.x >= 0.01f)
         {
             transform.localScale = new Vector3(-1f, 1f, 1f);
         }
-        else if (rb.velocity.x <= -0.25f)
+        else if (ai.desiredVelocity.x <= -0.01f)
         {
             transform.localScale = new Vector3(1f, 1f, 1f);
         }

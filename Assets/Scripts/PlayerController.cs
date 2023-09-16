@@ -47,6 +47,10 @@ public class PlayerController : MonoBehaviour
 
         PlayerBehaviour playerBehaviour = GetComponent<PlayerBehaviour>();
 
+        Vector2 aimDirection = mousePosition - rb.position;
+        float aimAngle = Mathf.Atan2(aimDirection.y, aimDirection.x) * Mathf.Rad2Deg - 90f;
+        rb.rotation = aimAngle;
+
         if ((Input.GetMouseButton(0) || Input.GetKey("space")) 
             && playerBehaviour.CheckHealth() > 0 
             && Time.time > nextFireTime 
@@ -74,12 +78,23 @@ public class PlayerController : MonoBehaviour
         mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
     }
 
-    private void FixedUpdate()
+    void FixedUpdate()
     {
-        rb.velocity = new Vector2(moveDirection.x * currMovementSpeed, moveDirection.y * currMovementSpeed);
-        
+        // Lerp for smoother movement
+        float lerpFactor = 0.1f;
+        Vector2 targetVelocity = new Vector2(moveDirection.x * currMovementSpeed, moveDirection.y * currMovementSpeed);
+        Vector2 newVelocity = Vector2.Lerp(rb.velocity, targetVelocity, lerpFactor);
+        rb.velocity = newVelocity;
+
+        // Slerp for smoother rotation
         Vector2 aimDirection = mousePosition - rb.position;
         float aimAngle = Mathf.Atan2(aimDirection.y, aimDirection.x) * Mathf.Rad2Deg - 90f;
-        rb.rotation = aimAngle;
+        Quaternion fromRotation = Quaternion.Euler(0, 0, rb.rotation);
+        Quaternion toRotation = Quaternion.Euler(0, 0, aimAngle);
+        float slerpFactor = 0.1f;
+        Quaternion newRotation = Quaternion.Slerp(fromRotation, toRotation, slerpFactor);
+        rb.rotation = newRotation.eulerAngles.z;
+
+        Debug.DrawLine(weapon.firePoint.position, weapon.firePoint.position + (Vector3)(weapon.firePoint.up * 10f), Color.red);
     }
 }

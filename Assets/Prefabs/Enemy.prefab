@@ -588,6 +588,7 @@ MonoBehaviour:
   maxHP: 5
   healthbar: {fileID: 1312876075695886213}
   currencyPrefab: {fileID: 9211461954847310788, guid: c189d79b926aa554c9d375130290fd8e, type: 3}
+  ai: {fileID: 711779625}
 --- !u!114 &711779625
 MonoBehaviour:
   m_ObjectHideFlags: 0

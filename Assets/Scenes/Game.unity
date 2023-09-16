@@ -5143,8 +5143,8 @@ MonoBehaviour:
   eliminationsText: {fileID: 1710616270}
   ammoText: {fileID: 1469469500}
   currencyText: {fileID: 571155555}
-  ammo: 20
-  maxAmmo: 20
+  ammo: 200
+  maxAmmo: 200
   currencyAmount: 0
 --- !u!4 &1112966449
 Transform:
