@@ -71,11 +71,11 @@ public class EnemyPathAI : MonoBehaviour
             currentWaypoint++;
         }
 
-        if (rb.velocity.x >= 0.01f)
+        if (rb.velocity.x >= 0.25f)
         {
             transform.localScale = new Vector3(-1f, 1f, 1f);
         }
-        else if (rb.velocity.x <= -0.01f)
+        else if (rb.velocity.x <= -0.25f)
         {
             transform.localScale = new Vector3(1f, 1f, 1f);
         }

@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class CurrencyBehaviour : MonoBehaviour
 {
-
     private void OnTriggerEnter2D(Collider2D collision)
     {
         var playerBehaviour = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerBehaviour>();
@@ -13,7 +12,8 @@ public class CurrencyBehaviour : MonoBehaviour
         if (collision.gameObject.tag == "Player")
         {
             Physics2D.IgnoreCollision(collision, GetComponent<Collider2D>(), true);
-            StatsManager.Instance.IncreaseCurrency(UnityEngine.Random.Range(playerBehaviour.minCurrencyDrop, playerBehaviour.maxCurrencyDrop));
+            StatsManager.Instance.IncreaseCurrency(UnityEngine.Random.Range
+                (playerBehaviour.minCurrencyDrop, playerBehaviour.maxCurrencyDrop));
             Destroy(gameObject);
         }
         else

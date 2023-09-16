@@ -6,40 +6,66 @@ using UnityEngine;
 public class EnemySpawn : MonoBehaviour
 {
     public GameObject enemyPrefab;
+    public GameObject innerCircle;
+    public GameObject outerCircle;
     string enemyTag = "Enemy";
-    public int maxEnemies = 10;
+    public int maxEnemies = 5;
 
-    private Transform[] spawnPoints;
+    private CircleCollider2D innerCircleCollider;
+    private CircleCollider2D outerCircleCollider;
 
-    void Start()
+    private void Start()
     {
-        spawnPoints = new Transform[transform.childCount];
-        for (int i = 0; i < spawnPoints.Length; i++)
-        {
-            spawnPoints[i] = transform.GetChild(i);
-        }
+        innerCircleCollider = innerCircle.GetComponent<CircleCollider2D>();
+        outerCircleCollider = outerCircle.GetComponent<CircleCollider2D>();
 
-        SpawnAtRandomPoint();
+        innerCircleCollider.enabled = false;
+        outerCircleCollider.enabled = false;
+
+        setTransparent(innerCircle.GetComponent<SpriteRenderer>());
+        setTransparent(outerCircle.GetComponent<SpriteRenderer>());
+
+        StartCoroutine(SpawnGoons(2.0f));
     }
 
-    void SpawnAtRandomPoint()
+    private void setTransparent(SpriteRenderer obj)
     {
-        Transform spawnPoint = spawnPoints[UnityEngine.Random.Range(0, spawnPoints.Length)];
+        SpriteRenderer renderer = obj;
+        Color color = renderer.color;
+        color.a = 0f;
+        renderer.color = color;
+    }
 
-        Instantiate(enemyPrefab, spawnPoint.position, spawnPoint.rotation);
-        
+    void SpawnAtPoint()
+    {
+        float innerRadius = innerCircleCollider.radius * innerCircle.transform.lossyScale.x;
+        float outerRadius = outerCircleCollider.radius * outerCircle.transform.lossyScale.x;
+        Vector3 center = innerCircle.transform.position;
+
+        float spawnRadius = UnityEngine.Random.Range(innerRadius, outerRadius);
+        float spawnAngle = UnityEngine.Random.Range(0, 2 * Mathf.PI);
+
+        Vector3 spawnDirection = new Vector3(Mathf.Cos(spawnAngle), Mathf.Sin(spawnAngle), 0);
+        Vector3 spawnPoint = center + spawnDirection * spawnRadius;
+
+        Instantiate(enemyPrefab, spawnPoint, Quaternion.identity);
     }
 
     int CurrentEnemyCount()
     {
-        return GameObject.FindGameObjectsWithTag(enemyTag).Length;
+        return GameObject.FindGameObjectsWithTag(enemyTag).Length - 1;
     }
-
-    private void Update()
+        
+    IEnumerator SpawnGoons(float delay)
     {
-        if (CurrentEnemyCount() < maxEnemies)
-        {
-            SpawnAtRandomPoint();
+        while (true) 
+        {  
+            yield return new WaitForSeconds(delay);
+
+            if (CurrentEnemyCount() < maxEnemies)
+            {
+                SpawnAtPoint();
+            }
         }
     }
 }

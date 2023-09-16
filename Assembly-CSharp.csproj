@@ -59,7 +59,9 @@
     <Compile Include="Assets\Scripts\EnemyPathAI.cs" />
     <Compile Include="Assets\Scripts\CameraFollow.cs" />
     <Compile Include="Assets\Scripts\CursorChanger.cs" />
+    <Compile Include="Assets\Scripts\Boss.cs" />
     <Compile Include="Assets\Scripts\UpgradeSystem.cs" />
+    <Compile Include="Assets\Scripts\BossAttack.cs" />
     <Compile Include="Assets\Scripts\StatsManager.cs" />
     <Compile Include="Assets\Scripts\PlayerBehaviour.cs" />
     <Compile Include="Assets\Scripts\EnemyHealthbar.cs" />
@@ -71,6 +73,7 @@
     <Compile Include="Assets\Scripts\Weapon.cs" />
     <Compile Include="Assets\Scripts\EnemyWaveSpawner.cs" />
     <Compile Include="Assets\Scripts\UIManager.cs" />
+    <Compile Include="Assets\Scripts\CameraShake.cs" />
     <Compile Include="Assets\Scripts\PlayerHealthbar.cs" />
     <Compile Include="Assets\Scripts\CurrencyBehaviour.cs" />
   </ItemGroup>
